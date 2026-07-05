@@ -1,28 +1,27 @@
 <?php
 
 require_once "config.php";
+require_once "checksum.php";
 
-// Generate Unique Order ID
 $orderId = "ORD" . time();
 
-// Get Product Details
-$product = $_POST['product'] ?? 'Test Product';
-$amount  = $_POST['amount'] ?? '1.00';
+$amount = 100; // ₹1 = 100 paisa
 
-// Customer Details
-$name   = "Test User";
-$email  = "test@example.com";
-$mobile = "9999999999";
+$params = [
+    "merchantIdentifier" => MERCHANT_IDENTIFIER,
+    "orderId" => $orderId,
+    "amount" => $amount,
+    "currency" => "INR",
+    "buyerEmail" => "test@example.com",
+    "buyerFirstName" => "Test",
+    "buyerPhoneNumber" => "9999999999",
+    "productDescription" => "Test Product",
+    "returnUrl" => RETURN_URL,
+    "txnType" => "1",
+    "mode" => "0"
+];
 
-// ----------------------------
-// TODO:
-// Zaakpay documentation ke hisaab se
-// request payload aur checksum generate karein.
-// ----------------------------
-
-// Example placeholder values
-$merchantIdentifier = "YOUR_MERCHANT_IDENTIFIER";
-$checksum = "GENERATED_CHECKSUM";
+$checksum = generateChecksum($params);
 
 ?>
 
@@ -31,16 +30,22 @@ $checksum = "GENERATED_CHECKSUM";
 <head>
     <title>Redirecting...</title>
 </head>
-<body onload="document.forms['zaakpay'].submit()">
 
-<form name="zaakpay" method="POST" action="<?= ZAAKPAY_URL; ?>">
+<body onload="document.getElementById('zaakpayForm').submit();">
 
-    <input type="hidden" name="merchantIdentifier" value="<?= $merchantIdentifier; ?>">
-    <input type="hidden" name="orderId" value="<?= $orderId; ?>">
-    <input type="hidden" name="amount" value="<?= $amount; ?>">
-    <input type="hidden" name="currency" value="<?= CURRENCY; ?>">
-    <input type="hidden" name="returnUrl" value="<?= RETURN_URL; ?>">
-    <input type="hidden" name="checksum" value="<?= $checksum; ?>">
+<form id="zaakpayForm"
+      method="POST"
+      action="https://api.zaakpay.com/api/paymentTransact/V8">
+
+<?php foreach($params as $key=>$value){ ?>
+<input type="hidden"
+       name="<?php echo $key; ?>"
+       value="<?php echo htmlspecialchars($value); ?>">
+<?php } ?>
+
+<input type="hidden"
+       name="checksum"
+       value="<?php echo $checksum; ?>">
 
 </form>
 
