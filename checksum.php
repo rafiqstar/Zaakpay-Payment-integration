@@ -1,29 +1,31 @@
-<?php
-require_once "config.php";
+here<?php
 
-function generateChecksum($params)
-{
-    // Remove empty values
-    $filtered = [];
+$secret = "09f0ff45caeb4cfcb220635549249c77";
 
-    foreach ($params as $k => $v) {
-        if ($v !== "" && $v !== null) {
-            $filtered[$k] = $v;
-        }
-    }
+$amount = trim($_POST['amount']);
+$email = trim($_POST['email']);
+$name = trim($_POST['name']);
+$lname = trim($_POST['lname']);
+$phone = trim($_POST['phone']);
 
-    // Sort keys (VERY IMPORTANT)
-    ksort($filtered);
+$orderId = "ORD" . time();
+$merchantId = "c91ecf93993e4deda3959a7cd9db37d9";
 
-    // Build string
-    $checksumString = "";
+/*
+👉 IMPORTANT: Zaakpay docs ke exact order me string banao
+*/
 
-    foreach ($filtered as $key => $value) {
-        $checksumString .= $key . "=" . trim($value) . "&";
-    }
+$hashString =
+    $amount . "|" .
+    $email . "|" .
+    $name . "|" .
+    $lname . "|" .
+    $phone . "|" .
+    $merchantId . "|" .
+    $orderId;
 
-    $checksumString = rtrim($checksumString, "&");
+$checksum = hash_hmac("sha256", $hashString, $secret);
 
-    // HMAC SHA256
-    return hash_hmac("sha256", $checksumString, SECRET_KEY);
-}
+echo $checksum;
+
+?>
