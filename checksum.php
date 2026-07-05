@@ -1,19 +1,35 @@
-here<?php
+<?php
 
-// Sample Credentials (Replace with your real credentials)
-define('MERCHANT_IDENTIFIER', 'c91ecf93993e4deda3959a7cd9db37d9');
-define('API_KEY', 'fa3801a07e2845b5b1ddce5f67665b37');
 define('SECRET_KEY', '09f0ff45caeb4cfcb220635549249c77');
 
-// Sample Order
-$orderId = 'ORDER' . time();
-$amount = '100'; // ₹1.00 if Zaakpay expects paise
+function getChecksumString($data)
+{
+    $sequence = [
+        "amount","bankid","buyerAddress","buyerCity","buyerCountry",
+        "buyerEmail","buyerFirstName","buyerLastName","buyerPhoneNumber",
+        "buyerPincode","buyerState","currency","debitorcredit",
+        "merchantIdentifier","merchantIpAddress","mode","orderId",
+        "product1Description","product2Description","product3Description",
+        "product4Description","productDescription","productInfo","purpose",
+        "returnUrl","shipToAddress","shipToCity","shipToCountry",
+        "shipToFirstname","shipToLastname","shipToPhoneNumber",
+        "shipToPincode","shipToState","showMobile","txnDate",
+        "txnType","zpPayOption"
+    ];
 
-// Sample checksum placeholder
-$checksum = hash(
-    'sha256',
-    MERCHANT_IDENTIFIER . '|' . $orderId . '|' . $amount . '|' . SECRET_KEY
-);
+    $checksumString = "";
 
-echo $checksum;
-?>
+    foreach ($sequence as $key) {
+        if (isset($data[$key]) && $data[$key] !== "") {
+            $checksumString .= $key . "=" . $data[$key] . "&";
+        }
+    }
+
+    return rtrim($checksumString, "&");
+}
+
+function calculateChecksum($data)
+{
+    $checksumString = getChecksumString($data);
+    return hash_hmac("sha256", $checksumString, SECRET_KEY);
+}
