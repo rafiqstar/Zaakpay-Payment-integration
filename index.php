@@ -1,7 +1,7 @@
-here<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Simple Shop - Zaakpay</title>
+    <title>Simple Zaakpay Shop</title>
     <style>
         body {
             font-family: Arial;
@@ -36,7 +36,11 @@ here<!DOCTYPE html>
     <p>Price: ₹1</p>
 
     <form method="POST" action="checkout.php">
+
         <input type="hidden" name="amount" value="1.00">
+
+        <!-- 🔥 FIX: Currency added -->
+        <input type="hidden" name="currency" value="INR">
 
         <input type="text" name="name" placeholder="First Name" required><br><br>
         <input type="text" name="lname" placeholder="Last Name" required><br><br>
@@ -53,7 +57,11 @@ here<!DOCTYPE html>
     <p>Price: ₹2</p>
 
     <form method="POST" action="checkout.php">
+
         <input type="hidden" name="amount" value="2.00">
+
+        <!-- 🔥 FIX: Currency added -->
+        <input type="hidden" name="currency" value="INR">
 
         <input type="text" name="name" placeholder="First Name" required><br><br>
         <input type="text" name="lname" placeholder="Last Name" required><br><br>
@@ -70,7 +78,11 @@ here<!DOCTYPE html>
     <p>Price: ₹5</p>
 
     <form method="POST" action="checkout.php">
+
         <input type="hidden" name="amount" value="5.00">
+
+        <!-- 🔥 FIX: Currency added -->
+        <input type="hidden" name="currency" value="INR">
 
         <input type="text" name="name" placeholder="First Name" required><br><br>
         <input type="text" name="lname" placeholder="Last Name" required><br><br>
