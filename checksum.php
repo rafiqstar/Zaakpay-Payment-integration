@@ -1,29 +1,29 @@
 <?php
-
 require_once "config.php";
 
 function generateChecksum($params)
 {
-    // Step 1: Remove empty values
-    foreach ($params as $key => $value) {
-        if ($value === "" || $value === null) {
-            unset($params[$key]);
+    // Remove empty values
+    $filtered = [];
+
+    foreach ($params as $k => $v) {
+        if ($v !== "" && $v !== null) {
+            $filtered[$k] = $v;
         }
     }
 
-    // Step 2: Sort keys alphabetically (VERY IMPORTANT for Error 180 fix)
-    ksort($params);
+    // Sort keys (VERY IMPORTANT)
+    ksort($filtered);
 
-    // Step 3: Build query string
+    // Build string
     $checksumString = "";
 
-    foreach ($params as $key => $value) {
+    foreach ($filtered as $key => $value) {
         $checksumString .= $key . "=" . trim($value) . "&";
     }
 
-    // remove last &
     $checksumString = rtrim($checksumString, "&");
 
-    // Step 4: HMAC SHA256 with SECRET KEY
+    // HMAC SHA256
     return hash_hmac("sha256", $checksumString, SECRET_KEY);
 }
