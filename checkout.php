@@ -1,36 +1,36 @@
-here<?php
+<?php
 
 $secret = "09f0ff45caeb4cfcb220635549249c77";
 $merchantId = "c91ecf93993e4deda3959a7cd9db37d9";
 
 // 🔥 Input sanitize
+
 $amount = number_format((float)$_POST['amount'], 2, '.', '');
-$currency = $_POST['currency']; // ✅ FIX: currency added
-$email  = trim($_POST['email']);
-$name   = trim($_POST['name']);
-$lname  = trim($_POST['lname']);
 $phone  = trim($_POST['phone']);
 
-$orderId = "ORD" . time();
+$email = "test@example.com";
+$name  = "User";
+$lname = "NA";
 
-// 🔥 IMPORTANT: FIXED ORDER (Zaakpay safe format)
+$orderId = "ORD" . time();
+$currency = "INR";
+
+// 🔥 CHECKSUM (SAFE ORDER)
 $checksumString =
+    $merchantId . "|" .
+    $orderId . "|" .
     $amount . "|" .
-    $currency . "|" .   // ✅ FIXED
+    $currency . "|" .
     $email . "|" .
     $name . "|" .
     $lname . "|" .
-    $phone . "|" .
-    $merchantId . "|" .
-    $orderId;
+    $phone;
 
-// 🔐 Generate checksum
 $checksum = hash_hmac("sha256", $checksumString, $secret);
 
 ?>
 
-<!-- 🔥 Zaakpay Payment Redirect Form -->
-<form id="payForm" method="POST" action="https://api.zaakpay.com/transact">
+<form id="pay" method="POST" action="https://api.zaakpay.com/transact">
 
     <input type="hidden" name="amount" value="<?php echo $amount; ?>">
     <input type="hidden" name="currency" value="<?php echo $currency; ?>">
@@ -48,5 +48,5 @@ $checksum = hash_hmac("sha256", $checksumString, $secret);
 </form>
 
 <script>
-document.getElementById("payForm").submit();
+document.getElementById("pay").submit();
 </script>
