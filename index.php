@@ -1,60 +1,46 @@
-<?php
-$product = "Test Product";
-$amount = "1.00";
-?>
-<!DOCTYPE html>
+here<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Skyline Store</title>
+<title>Simple Store</title>
 
 <style>
 body{
+    font-family: Arial;
+    background:#f5f5f5;
     margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f4f4f4;
 }
+
 .container{
-    width:400px;
-    margin:60px auto;
-    background:#fff;
-    border-radius:12px;
-    box-shadow:0 0 10px rgba(0,0,0,.15);
-    overflow:hidden;
+    max-width:500px;
+    margin:50px auto;
 }
-.header{
-    background:#0066ff;
-    color:#fff;
-    text-align:center;
-    padding:20px;
-}
+
 .card{
-    padding:25px;
+    background:#fff;
+    padding:20px;
+    margin-bottom:15px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+    text-align:center;
 }
+
 .price{
-    font-size:30px;
-    color:#28a745;
-    font-weight:bold;
+    font-size:22px;
+    color:green;
+    margin:10px 0;
 }
+
 button{
     width:100%;
-    padding:15px;
-    background:#0066ff;
-    color:#fff;
+    padding:10px;
     border:none;
+    background:#007bff;
+    color:#fff;
+    font-size:16px;
     border-radius:8px;
     cursor:pointer;
-    font-size:18px;
-}
-button:hover{
-    background:#0052cc;
-}
-.footer{
-    text-align:center;
-    padding:15px;
-    color:#777;
-    font-size:13px;
 }
 </style>
 
@@ -63,38 +49,37 @@ button:hover{
 
 <div class="container">
 
-<div class="header">
-<h2>Skyline Store</h2>
-</div>
-
+<!-- PRODUCT 1 -->
 <div class="card">
-
-<h3><?php echo $product; ?></h3>
-
-<p>Secure payment powered by Zaakpay</p>
-
-<div class="price">
-₹<?php echo $amount; ?>
+    <h3>Product 1</h3>
+    <div class="price">₹1</div>
+    <form action="checkout.php" method="POST">
+        <input type="hidden" name="product" value="Product 1">
+        <input type="hidden" name="amount" value="1">
+        <button type="submit">Buy Now</button>
+    </form>
 </div>
 
-<br>
-
-<form action="checkout.php" method="POST">
-
-<input type="hidden" name="product" value="<?php echo $product; ?>">
-
-<input type="hidden" name="amount" value="<?php echo $amount; ?>">
-
-<button type="submit">
-Buy Now
-</button>
-
-</form>
-
+<!-- PRODUCT 2 -->
+<div class="card">
+    <h3>Product 2</h3>
+    <div class="price">₹2</div>
+    <form action="checkout.php" method="POST">
+        <input type="hidden" name="product" value="Product 2">
+        <input type="hidden" name="amount" value="2">
+        <button type="submit">Buy Now</button>
+    </form>
 </div>
 
-<div class="footer">
-Powered by Skyline Technologies
+<!-- PRODUCT 3 -->
+<div class="card">
+    <h3>Product 3</h3>
+    <div class="price">₹5</div>
+    <form action="checkout.php" method="POST">
+        <input type="hidden" name="product" value="Product 3">
+        <input type="hidden" name="amount" value="5">
+        <button type="submit">Buy Now</button>
+    </form>
 </div>
 
 </div>
