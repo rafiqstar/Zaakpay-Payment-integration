@@ -1,35 +1,19 @@
 here<?php
 
-$secret = "09f0ff45caeb4cfcb220635549249c77";
-$merchantId = "c91ecf93993e4deda3959a7cd9db37d9";
+// Sample Credentials (Replace with your real credentials)
+define('MERCHANT_IDENTIFIER', 'c91ecf93993e4deda3959a7cd9db37d9');
+define('API_KEY', 'fa3801a07e2845b5b1ddce5f67665b37');
+define('SECRET_KEY', '09f0ff45caeb4cfcb220635549249c77');
 
-// inputs
-$amount = number_format((float)$_POST['amount'], 2, '.', '');
-$currency = "INR";
+// Sample Order
+$orderId = 'ORDER' . time();
+$amount = '100'; // ₹1.00 if Zaakpay expects paise
 
-$email = trim($_POST['email']);
-$name  = trim($_POST['name']);
-$lname = trim($_POST['lname']);
-$phone = trim($_POST['phone']);
+// Sample checksum placeholder
+$checksum = hash(
+    'sha256',
+    MERCHANT_IDENTIFIER . '|' . $orderId . '|' . $amount . '|' . SECRET_KEY
+);
 
-$orderId = "ORD" . time();
-
-/*
-🔥 FINAL SAFE ORDER (MOST COMPATIBLE FORMAT)
-👉 This is widely used Zaakpay pattern
-*/
-
-$checksumString =
-    $merchantId . "|" .
-    $orderId . "|" .
-    $amount . "|" .
-    $currency . "|" .
-    $email . "|" .
-    $name . "|" .
-    $lname . "|" .
-    $phone;
-
-// 🔐 Generate checksum
-$checksum = hash_hmac("sha256", $checksumString, $secret);
-
+echo $checksum;
 ?>
